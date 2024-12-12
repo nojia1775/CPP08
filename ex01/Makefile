@@ -2,7 +2,8 @@ CC = c++
 
 CFLAGS = -Wall -Wextra -Werror -std=c++98 -g -MMD
 
-SRCS =	main.cpp
+SRCS =	main.cpp \
+	Span.cpp
 
 OBJ_DIR = obj
 
@@ -10,7 +11,7 @@ OBJS = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(SRCS))
 
 DEPS = $(OBJS:.o=.d)
 
-NAME = easyfind
+NAME = span
 
 $(OBJ_DIR)/%.o: %.cpp
 	mkdir -p $(OBJ_DIR)
