@@ -7,7 +7,7 @@
 # include <vector>
 
 template <typename T>
-void	easyfind(const T& tab, const int& n);
+typename T::iterator	easyfind(const T& tab, const int& n);
 
 class	NotInArray : public std::exception
 {
