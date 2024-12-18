@@ -100,3 +100,5 @@ const char	*Span::NotEnoughNumber::what(void) const throw()
 {
 	return "There is not enough number in span";
 }
+
+size_t	Span::getSize(void) const { return _size; }
