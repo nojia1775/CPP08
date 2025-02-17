@@ -5,42 +5,44 @@
 # include <iostream>
 # include <vector>
 # include <algorithm>
+# include <list>
 
 class	Span
 {
 	private:
-		size_t					_size;
-		std::vector<int>			_array;
-
+		unsigned int		_size;
+		std::vector<int>	_tab;
+	
 	public:
-							Span(void);
-							~Span(void);
+					Span(void);
+					~Span(void);
 
-							Span(const unsigned int& n);
-							Span(const Span& other);
-		Span&					operator=(const Span& other);
+					Span(const unsigned int& N);
+					Span(const Span& other);
+		Span&			operator=(const Span& other);
 
-		void					addNumber(const int& nbr);
-		void					fillSpan(std::vector<int>::const_iterator begin, std::vector<int>::const_iterator end, int value);
-		unsigned int				shortestSpan(void) const;
-		unsigned int				longestSpan(void) const;
-		std::vector<int>::const_iterator	getBegin(void) const;
-		std::vector<int>::const_iterator	getEnd(void) const;
-		size_t					getSize(void) const;
+		void			addNumber(const int& number);
+		unsigned int		shortestSpan(void) const;
+		unsigned int		longestSpan(void) const;
+		void			display(void) const;
 
-		class					SpanIsFull : public std::exception
+		template <typename T>
+		void			fill(const typename T::const_iterator begin, const typename T::const_iterator end);
+
+		class			TabIsFull : public std::exception
 		{
-							const char	*what(void) const throw();
+					const char	*what(void) const throw();
 		};
-		class					IndexOutOfRange : public std::exception
+		class			NotEnoughNumbers : public std::exception
 		{
-							const char	*what(void) const throw();
+					const char	*what(void) const throw();
 		};
-		class					NotEnoughNumber : public std::exception
+		class			NotEnoughSpaceInArray : public std::exception
 		{
-							const char	*what(void) const throw();
+					const char	*what(void) const throw();
 		};
 };
 
+# include "Span.tpp"
 
 #endif

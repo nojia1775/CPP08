@@ -1,104 +1,72 @@
 #include "Span.hpp"
 
-Span::Span(void) : _size(0)
-{
-	std::cout << "Span default constructor called\n";
-	_array = std::vector<int>();
-}
+Span::Span(void) : _size(0) {}
 
-Span::~Span(void)
-{
-	std::cout << "Span destructor called\n";
-}
+Span::~Span(void) {}
 
-Span::Span(const unsigned int& n) : _size(n)
-{
-	std::cout << "Span constructor called\n";
-}
+Span::Span(const unsigned int& number) : _size(number) {}
 
-Span::Span(const Span& other) : _size(other._size)
-{
-	std::cout << "Span copy constructor called\n";
-	_array = other._array;
-}
+Span::Span(const Span& other) : _size(other._size), _tab(other._tab) {}
 
 Span&	Span::operator=(const Span& other)
 {
 	if (this != &other)
 	{
 		_size = other._size;
-		_array = other._array;
+		_tab = other._tab;
 	}
 	return *this;
 }
 
-void	Span::addNumber(const int& nbr)
+void	Span::addNumber(const int& number)
 {
-	if (_array.size() == _size)
-		throw SpanIsFull();
-	else
-		_array.push_back(nbr);
-}
-
-unsigned int	Span::longestSpan(void) const
-{
-	if (_size < 2)
+	if (_tab.size() == _size)
 	{
-		throw NotEnoughNumber();
-		return -1;
+		throw TabIsFull();
+		return;
 	}
-	int min = *std::min_element(_array.begin(), _array.end());
-	int max = *std::max_element(_array.begin(), _array.end());
-	return max - min;
+	_tab.push_back(number);
 }
 
 unsigned int	Span::shortestSpan(void) const
 {
-	if (_size < 2)
+	if (_tab.size() < 2)
 	{
-		throw NotEnoughNumber();
+		throw NotEnoughNumbers();
 		return -1;
 	}
-	std::vector<int> tmp = _array;
+	std::vector<int> tmp = _tab;
 	std::sort(tmp.begin(), tmp.end());
-	int diff = std::abs(tmp[0] - tmp[1]);
-	for (unsigned int i = 0 ; i < _size - 1 ; i++)
+	unsigned int shortest = std::abs(tmp[0] - tmp[1]);
+	for (size_t i = 0 ; i < tmp.size() - 1 ; i++)
 	{
-		if (std::abs(tmp[i] - tmp[i + 1]) < diff)
-			diff = std::abs(tmp[i] - tmp[i + 1]);
+		unsigned int diff = std::abs(tmp[i] - tmp[i + 1]);
+		if (diff < shortest)
+			shortest = diff;
 	}
-	return diff;
+	return shortest;
 }
 
-void	Span::fillSpan(std::vector<int>::const_iterator begin, std::vector<int>::const_iterator end, int value)
+unsigned int	Span::longestSpan(void) const
 {
-	for (std::vector<int>::const_iterator it = begin; it != end ; ++it)
-		addNumber(value);
+	if (_tab.size() < 2)
+	{
+		throw NotEnoughNumbers();
+		return -1;
+	}
+	int min = *std::min_element(_tab.begin(), _tab.end());
+	int max = *std::max_element(_tab.begin(), _tab.end());
+	return std::abs(min - max);
 }
 
-std::vector<int>::const_iterator	Span::getBegin(void) const
+void	Span::display(void) const
 {
-	return _array.begin();
+	for (std::vector<int>::const_iterator it = _tab.begin() ; it != _tab.end() ; ++it)
+		std::cout << *it << "\n";
 }
 
-std::vector<int>::const_iterator	Span::getEnd(void) const
-{
-	return _array.end();
-}
+const char	*Span::TabIsFull::what(void) const throw() { return "The array is full"; }
 
-const char	*Span::SpanIsFull::what(void) const throw()
-{
-	return "The span is full";
-}
+const char	*Span::NotEnoughNumbers::what(void) const throw() { return "There is not enough numbers in the array"; }
 
-const char	*Span::IndexOutOfRange::what(void) const throw()
-{
-	return "Out of range";
-}
-
-const char	*Span::NotEnoughNumber::what(void) const throw()
-{
-	return "There is not enough number in span";
-}
-
-size_t	Span::getSize(void) const { return _size; }
+const char	*Span::NotEnoughSpaceInArray::what(void) const throw() { return "Not enough space in the array"; }
