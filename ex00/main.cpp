@@ -10,7 +10,7 @@ int	main(void)
 	arr.push_back(3);
 	try
 	{
-		std::vector<int>::iterator it = easyfind(arr, 1);
+		std::vector<int>::const_iterator it = easyfind(arr, 1);
 		std::cout << *it << "\n";
 	}
 	catch (const std::exception& e)
@@ -23,7 +23,7 @@ int	main(void)
 	lst.push_back(7);
 	try
 	{
-		std::list<int>::iterator it = easyfind(lst, 5);
+		std::list<int>::const_iterator it = easyfind(lst, 5);
 		std::cout << *it << "\n";
 	}
 	catch (const std::exception& e)
